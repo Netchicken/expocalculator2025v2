@@ -18,29 +18,6 @@ const db = SQLite.openDatabase(
   }
 );
 
-// Function to clear all answers from the database
-const clearDatabase = () => {
-  console.log("Clearing database...");
-  db.transaction(
-    (tx) => {
-      tx.executeSql(
-        "DELETE FROM AllAnswers;",
-        [],
-        () => {
-          console.log("All data cleared from database.");
-          fetchItems(); // Refresh the list after clearing
-        },
-        (tx, error) => {
-          console.log("Error clearing database:", error);
-        }
-      );
-    },
-    (error) => {
-      console.log("Transaction error:", error);
-    }
-  );
-};
-
 const DisplayDB = () => {
   console.log("Database DisplayDB:");
   const styles = useDbOperationStyles();
@@ -113,6 +90,29 @@ const DisplayDB = () => {
         setListAnswers(rows);
       });
     });
+  };
+
+  // Function to clear all answers from the database
+  const clearDatabase = () => {
+    console.log("Clearing database...");
+    db.transaction(
+      (tx) => {
+        tx.executeSql(
+          "DELETE FROM AllAnswers;",
+          [],
+          () => {
+            console.log("All data cleared from database.");
+            fetchItems(); // Refresh the list after clearing
+          },
+          (tx, error) => {
+            console.log("Error clearing database:", error);
+          }
+        );
+      },
+      (error) => {
+        console.log("Transaction error:", error);
+      }
+    );
   };
 
   return (
