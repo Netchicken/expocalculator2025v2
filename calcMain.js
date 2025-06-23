@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { SafeAreaView, ScrollView, Text, View, ImageBackground } from "react-native";
 import CalcButtons from "./Components/calcbuttons";
 import NumberButtons from "./Components/numberButtons";
@@ -6,14 +6,17 @@ import { useAppStyles } from "./AllStyles/appStyles";
 import { CalcContext } from "./Operations/calcContext";
 
 const CalcMain = () => {
+  console.log("Calculator Main");
   const { calcResult, setCalcResult } = useContext(CalcContext);
   const [calculation, setCalculation] = useState("");
+  console.log("Calculator after state:", calculation);
 
   const updateCalculation = (value) => {
     if (value === "=") {
       try {
         let answer = new Function("return " + calculation)();
         setCalculation(calculation + "=" + answer);
+        setCalcResult(calculation + "=" + answer);
       } catch {
         setCalculation("Error");
       }
@@ -24,8 +27,16 @@ const CalcMain = () => {
     } else {
       setCalculation(calculation + String(value));
     }
-    setCalcResult(calculation);
   };
+
+  // Sync calculation to context
+  // This useEffect will update calcResult whenever calculation changes
+  // It ensures that the context is always in sync with the current calculation
+  // useEffect(() => {
+  //   //update the context with the current calculation
+  //   console.log("Updating calcResult in context:", calculation);
+  //   setCalcResult(calculation);
+  // }, [calculation, setCalcResult]);
 
   const styles = useAppStyles();
 

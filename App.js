@@ -2,7 +2,7 @@ import CalcMain from "./calcMain";
 import DisplayDB from "./displayDB"; // Use default import
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { CalcContextProvider } from "./Operations/calcContext";
+import { CalcContext, CalcContextProvider } from "./Operations/calcContext";
 
 const Tab = createBottomTabNavigator();
 

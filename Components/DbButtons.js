@@ -3,14 +3,13 @@ import { Row } from "./Row"; // Import Row component
 import { PressableButton } from "./AllButtons";
 
 // This component shows database operation buttons
-export const DbButtons = ({ sqlOperation }) => {
+const DbButtons = ({ clearDatabase }) => {
   return (
     <Row>
-      <PressableButton onPress={sqlOperation} symbol="Display" />
-      <PressableButton onPress={sqlOperation} symbol="Add" />
-      <PressableButton onPress={sqlOperation} symbol="Delete" />
-      <PressableButton onPress={sqlOperation} symbol="Edit" />
+      <PressableButton onPress={() => clearDatabase} symbol="Delete All" />
+      <PressableButton onPress={() => clearDatabase} symbol="Edit" />
     </Row>
   );
 };
 //
+export default DbButtons;
