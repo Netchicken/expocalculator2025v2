@@ -57,17 +57,20 @@ const DisplayDB = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView>
-        {listAnswers &&
-          listAnswers.map((item, index) => (
-            <View key={index}>
-              <Text style={styles.text}>{item.answer}</Text>
-              <Text>Latest Calculation: {calcResult}</Text>
-            </View>
-          ))}
-      </ScrollView>
-    </SafeAreaView>
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <SafeAreaView style={styles.container}>
+        <ScrollView>
+          {listAnswers &&
+            listAnswers.map((item, index) => (
+              <View key={index}>
+                <Text style={styles.text}>{item.answer}</Text>
+                <Text>Latest Calculation: {calcResult}</Text>
+              </View>
+            ))}
+        </ScrollView>
+      </SafeAreaView>
+      <Text>DisplayDB works!</Text>
+    </View>
   );
 };
 
