@@ -15,7 +15,7 @@ export const useDbOperationStyles = () => {
     () =>
       StyleSheet.create({
         text: {
-          fontSize: rs(20),
+          fontSize: rs(15),
           fontWeight: "bold",
           margin: rs(2),
         },

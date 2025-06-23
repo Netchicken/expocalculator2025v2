@@ -92,7 +92,6 @@ const DisplayDB = () => {
             console.log("Item added to database:", calcResult);
             // Clear the context after adding
             //It also prevents duplicate entries if the user doesn’t change the calculation.
-            setCalcResult(""); // Clear the context after adding
           },
           (tx, error) => {
             console.log("Error inserting item:", error);

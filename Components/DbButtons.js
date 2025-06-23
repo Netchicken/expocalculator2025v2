@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { Row } from "./Row"; // Import Row component
 import { PressableButton } from "./AllButtons";
 
@@ -6,8 +6,8 @@ import { PressableButton } from "./AllButtons";
 const DbButtons = ({ clearDatabase }) => {
   return (
     <Row>
-      <PressableButton onPress={() => clearDatabase} symbol="Delete All" />
-      <PressableButton onPress={() => clearDatabase} symbol="Edit" />
+      <PressableButton onPress={clearDatabase} symbol="Delete All" />
+      <PressableButton onPress={clearDatabase} symbol="Edit" />
     </Row>
   );
 };
