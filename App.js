@@ -1,80 +1,59 @@
-import React, { useState, useMemo } from "react";
-import { Text, View } from "react-native";
 import CalcMain from "./calcMain";
-import { displayDB } from "./displayDB"; // Import the displayDb component
-import {
-  createStaticNavigation,
-  useNavigation,
-  NavigationContainer,
-} from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Button } from "@react-navigation/elements";
+import DisplayDB from "./displayDB"; // Use default import
+import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-
-import { CalcContext } from "./Operations/calcContext"; // or wherever you define it
+import { CalcContextProvider } from "./Operations/calcContext";
 
 const Tab = createBottomTabNavigator();
-// Example Home screen componentr
-function CalcMainScreen({ navigation }) {
-  return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text style={{ fontSize: 24 }}>Calculator Screen</Text>
-      <Button
-        title="Go to Calculator"
-        onPress={() => navigation.navigate({ CalcMain })}
-      />
-    </View>
-  );
-}
 
-// Example Profile screen component
-function displayDBScreen({ navigation }) {
-  return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text style={{ fontSize: 24 }}>Database Screen</Text>
-      <Button
-        title="Go to Settings Tab"
-        onPress={() => navigation.navigate({ displayDB })}
-      />
-    </View>
-  );
-}
-
-// Main App component
 const App = () => {
-  const { calcResult, setCalcResult } = useContext(CalcContext);
-
   return (
-    <View>
-      <CalcContext.Provider value={{ calcResult, setCalcResult }}>
-        <NavigationContainer>
-          <Tab.Navigator
-            initialRouteName="Home"
-            screenOptions={{
-              headerShown: true, // Show header on each tab screen
-              tabBarActiveTintColor: "#1976d2", // Active tab color
-              tabBarInactiveTintColor: "#888", // Inactive tab color
-              tabBarStyle: { backgroundColor: "#e3f2fd" }, // Tab bar style
-            }}
-          >
-            <Tab.Screen
-              name="Calculator"
-              component={CalcMainScreen}
-              options={{ tabBarLabel: "Home" }}
-            />
-            <Tab.Screen
-              name="Database"
-              component={displayDBScreen}
-              options={{ tabBarLabel: "Database" }}
-            />
-          </Tab.Navigator>
-        </NavigationContainer>
-      </CalcContext.Provider>
-    </View>
+    <CalcContextProvider>
+      <NavigationContainer>
+        <Tab.Navigator
+          initialRouteName="Calculator"
+          screenOptions={{
+            headerShown: true,
+            tabBarActiveTintColor: "#1976d2",
+            tabBarInactiveTintColor: "#888",
+            tabBarStyle: { backgroundColor: "#e3f2fd" },
+          }}
+        >
+          <Tab.Screen name="Calculator" component={CalcMain} options={{ tabBarLabel: "Home" }} />
+          <Tab.Screen name="Database" component={DisplayDB} options={{ tabBarLabel: "Database" }} />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </CalcContextProvider>
   );
 };
 
 export default App;
+
+//   <Tab.Navigator initialRouteName="Calculator">
+//     <Tab.Screen name="Calculator" component={CalcMain} />
+//     <Tab.Screen name="Database" component={DisplayDB} />
+//   </Tab.Navigator>
+// </NavigationContainer>
+//
+// function CalcMainScreen({ navigation }) {
+//   console.log("CalcMainScreen opened");
+//   return (
+//     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+//       <Text style={{ fontSize: 24 }}>Calculator Screen</Text>
+//       <Button title="Go to Calculator" onPress={() => navigation.navigate("Calculator")} />
+//     </View>
+//   );
+// }
+
+// function DisplayDBScreen({ navigation }) {
+//   console.log("displayDBScreen opened");
+//   return (
+//     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+//       <Text style={{ fontSize: 24 }}>Database Screen</Text>
+//       <Button title="Go to Settings Tab" onPress={() => navigation.navigate("Database")} />
+//     </View>
+//   );
+// }
 
 //const Stack = createNativeStackNavigator();
 
