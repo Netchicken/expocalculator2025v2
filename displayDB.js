@@ -5,6 +5,8 @@ import { useDbOperationStyles } from "./AllStyles/dbOperationsStyles";
 import { useAppStyles } from "./AllStyles/appStyles";
 import { CalcContext } from "./Operations/calcContext";
 import DbButtons from "./Components/DbButtons";
+import { Pressable, Alert } from "react-native";
+import Dialog from "react-native-dialog";
 
 // Enable SQLite debugging
 
@@ -24,6 +26,11 @@ const DisplayDB = () => {
   const appStyles = useAppStyles();
   const [listAnswers, setListAnswers] = useState([]);
   const { calcResult, setCalcResult } = useContext(CalcContext);
+
+  //editDialogVisible is used to control the visibility of the edit dialog
+  const [editDialogVisible, setEditDialogVisible] = useState(false);
+  const [editOldValue, setEditOldValue] = useState("");
+  const [editNewValue, setEditNewValue] = useState("");
 
   console.log("Database calcResult:", calcResult);
 
@@ -115,6 +122,43 @@ const DisplayDB = () => {
     );
   };
 
+  const editItem = (oldValue) => {
+    setEditOldValue(oldValue);
+    setEditNewValue(oldValue);
+    setEditDialogVisible(true);
+  };
+
+  const handleEditCancel = () => {
+    setEditDialogVisible(false);
+  };
+
+  const handleEditSubmit = () => {
+    if (editNewValue && editNewValue !== editOldValue) {
+      db.transaction(
+        (tx) => {
+          tx.executeSql(
+            "UPDATE AllAnswers SET answer = ? WHERE answer = ?",
+            [editNewValue, editOldValue],
+            () => {
+              fetchItems();
+              setEditDialogVisible(false);
+            },
+            (tx, error) => {
+              console.log("Error updating item:", error);
+              setEditDialogVisible(false);
+            }
+          );
+        },
+        (error) => {
+          console.log("Transaction error:", error);
+          setEditDialogVisible(false);
+        }
+      );
+    } else {
+      setEditDialogVisible(false);
+    }
+  };
+
   return (
     <ImageBackground resizeMode="cover" source={require("./Assets/bgImage.png")} style={appStyles.image}>
       <View style={appStyles.container}>
@@ -122,12 +166,22 @@ const DisplayDB = () => {
           <Text style={appStyles.sectionTitle}>Database</Text>
           <Text>Latest Calculation: {calcResult}</Text>
           <DbButtons clearDatabase={clearDatabase} />
+
+          <Dialog.Container visible={editDialogVisible}>
+            <Dialog.Title>Edit Entry</Dialog.Title>
+            <Dialog.Description>Enter new value:</Dialog.Description>
+            <Dialog.Input value={editNewValue} onChangeText={setEditNewValue} />
+            <Dialog.Button label="Cancel" onPress={handleEditCancel} />
+            <Dialog.Button label="OK" onPress={handleEditSubmit} />
+          </Dialog.Container>
           <ScrollView>
             {listAnswers &&
               listAnswers.map((item, index) => (
-                <View key={index}>
-                  <Text style={styles.text}>{item.answer}</Text>
-                </View>
+                <Pressable key={index} onPress={() => editItem(item.answer)}>
+                  <View>
+                    <Text style={styles.text}>{item.answer}</Text>
+                  </View>
+                </Pressable>
               ))}
           </ScrollView>
         </SafeAreaView>
