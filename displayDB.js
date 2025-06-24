@@ -3,7 +3,9 @@ import SQLite from "react-native-sqlite-storage";
 import { SafeAreaView, ScrollView, Text, View, ImageBackground } from "react-native";
 import { useDbOperationStyles } from "./AllStyles/dbOperationsStyles";
 import { useAppStyles } from "./AllStyles/appStyles";
+// Import the context for state management
 import { Context } from "./Operations/Context";
+// Import the components for displaying buttons and handling database operations
 import DbButtons from "./Components/DbButtons";
 import { Pressable, Alert } from "react-native";
 import Dialog from "react-native-dialog";
@@ -27,6 +29,8 @@ const DisplayDB = () => {
   const styles = useDbOperationStyles();
   const appStyles = useAppStyles();
   const [listAnswers, setListAnswers] = useState([]);
+  // Use the context to get the calculation result and function to update it
+  // This allows the calculator to share its state with other components if needed
   const { calcResult, setCalcResult } = useContext(Context);
 
   //editDialogVisible is used to control the visibility of the edit dialog

@@ -3,13 +3,17 @@ import { SafeAreaView, ScrollView, Text, View, ImageBackground } from "react-nat
 import CalcButtons from "./Components/calcbuttons";
 import NumberButtons from "./Components/numberButtons";
 import { useAppStyles } from "./AllStyles/appStyles";
-import { Context } from "./Operations/Context";
+import { Context } from "./Operations/Context"; // Import the context for state management
 
 // Main component for the calculator
 // This component handles the main logic of the calculator, including state management and UI rendering
 const CalcMain = () => {
   console.log("Calculator Main");
+
+  // Use the context to get the calculation result and function to update it
+  // This allows the calculator to share its state with other components if needed
   const { calcResult, setCalcResult } = useContext(Context);
+
   const [calculation, setCalculation] = useState("");
   console.log("Calculator after state:", calculation);
 
@@ -21,6 +25,7 @@ const CalcMain = () => {
         // Evaluate the calculation string and update the state with the result
         let answer = new Function("return " + calculation)();
         setCalculation(calculation + "=" + answer);
+        // Update the context with the calculation result
         setCalcResult(calculation + "=" + answer);
       } catch {
         setCalculation("Error");
