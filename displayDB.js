@@ -8,6 +8,8 @@ import DbButtons from "./Components/DbButtons";
 import { Pressable, Alert } from "react-native";
 import Dialog from "react-native-dialog";
 
+//import { clearDatabase, addItem } from "./Operations/DbOperations"; // Import the functions from DbOperations}
+
 // Enable SQLite debugging
 
 const db = SQLite.openDatabase(
@@ -57,7 +59,7 @@ const DisplayDB = () => {
   // Add item whenever calcResult changes and is not empty
   useEffect(() => {
     if (calcResult) {
-      addItem();
+      addItem(calcResult); // Call the addItem function from DbOperations
       fetchItems(); // Fetch items after creating the table
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

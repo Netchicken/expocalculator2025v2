@@ -1,0 +1,67 @@
+import React, { useState, useEffect, useContext } from "react";
+import SQLite from "react-native-sqlite-storage";
+import { SafeAreaView, ScrollView, Text, View, ImageBackground } from "react-native";
+import { useDbOperationStyles } from "../AllStyles/dbOperationsStyles";
+import { useAppStyles } from "../AllStyles/appStyles";
+import { CalcContext } from "../Operations/calcContext";
+import DbButtons from "../Components/DbButtons";
+import { Pressable, Alert } from "react-native";
+import Dialog from "react-native-dialog";
+
+// export const db = SQLite.openDatabase(
+//   { name: "calcDB.db", location: "default" },
+//   () => {
+//     console.log("DB opened for real");
+//   },
+//   (error) => {
+//     console.log("DB open error:", error);
+//   }
+// );
+
+// Add item to the database
+// This function is called after the table is created
+export const addItem = (calcResult, db) => {
+  if (!calcResult) return;
+  db.transaction(
+    (tx) => {
+      tx.executeSql(
+        "INSERT INTO AllAnswers (answer) VALUES (?)",
+        [calcResult],
+        () => {
+          console.log("Item added to database:", calcResult);
+          // Clear the context after adding
+          //It also prevents duplicate entries if the user doesn’t change the calculation.
+        },
+        (tx, error) => {
+          console.log("Error inserting item:", error);
+        }
+      );
+    },
+    (error) => {
+      console.log("Transaction error:", error);
+    }
+  );
+};
+
+// Function to clear all answers from the database
+export const clearDatabase = (fetchItems, db) => {
+  console.log("Clearing database...");
+  db.transaction(
+    (tx) => {
+      tx.executeSql(
+        "DELETE FROM AllAnswers;",
+        [],
+        () => {
+          console.log("All data cleared from database.");
+          fetchItems(); // Refresh the list after clearing
+        },
+        (tx, error) => {
+          console.log("Error clearing database:", error);
+        }
+      );
+    },
+    (error) => {
+      console.log("Transaction error:", error);
+    }
+  );
+};
