@@ -3,7 +3,7 @@ import SQLite from "react-native-sqlite-storage";
 import { SafeAreaView, ScrollView, Text, View, ImageBackground } from "react-native";
 import { useDbOperationStyles } from "../AllStyles/dbOperationsStyles";
 import { useAppStyles } from "../AllStyles/appStyles";
-import { CalcContext } from "./calcContext";
+import { Context } from "./Context";
 import DbButtons from "../Components/DbButtons";
 import { Pressable, Alert } from "react-native";
 import Dialog from "react-native-dialog";

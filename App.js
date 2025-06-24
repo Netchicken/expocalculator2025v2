@@ -2,14 +2,14 @@ import CalcMain from "./calcMain"; //import the main calculator component
 import DisplayDB from "./displayDB"; // import the database display component
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { CalcContext, CalcContextProvider } from "./Operations/calcContext";
+import { Context, ContextProvider } from "./Operations/Context";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const Tab = createBottomTabNavigator();
 
 const App = () => {
   return (
-    <CalcContextProvider>
+    <ContextProvider>
       <NavigationContainer>
         <Tab.Navigator
           initialRouteName="Calculator" // Set the initial route to Calculator
@@ -28,7 +28,9 @@ const App = () => {
             component={CalcMain}
             options={{
               tabBarLabel: "Home",
-              tabBarIcon: ({ color, size }) => <Icon name="calculator" color={color} size={size} />,
+              tabBarIcon: ({ focused, size }) => (
+                <Icon name="calculator" color={focused ? "#1976d2" : "#888"} size={size} />
+              ),
             }}
           />
 
@@ -37,12 +39,14 @@ const App = () => {
             component={DisplayDB}
             options={{
               tabBarLabel: "Home",
-              tabBarIcon: ({ color, size }) => <Icon name="database" color={color} size={size} />,
+              tabBarIcon: ({ focused, size }) => (
+                <Icon name="database" color={focused ? "#1976d2" : "#888"} size={size} />
+              ),
             }}
           />
         </Tab.Navigator>
       </NavigationContainer>
-    </CalcContextProvider>
+    </ContextProvider>
   );
 };
 

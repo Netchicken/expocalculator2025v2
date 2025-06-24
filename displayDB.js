@@ -3,7 +3,7 @@ import SQLite from "react-native-sqlite-storage";
 import { SafeAreaView, ScrollView, Text, View, ImageBackground } from "react-native";
 import { useDbOperationStyles } from "./AllStyles/dbOperationsStyles";
 import { useAppStyles } from "./AllStyles/appStyles";
-import { CalcContext } from "./Operations/calcContext";
+import { Context } from "./Operations/Context";
 import DbButtons from "./Components/DbButtons";
 import { Pressable, Alert } from "react-native";
 import Dialog from "react-native-dialog";
@@ -27,7 +27,7 @@ const DisplayDB = () => {
   const styles = useDbOperationStyles();
   const appStyles = useAppStyles();
   const [listAnswers, setListAnswers] = useState([]);
-  const { calcResult, setCalcResult } = useContext(CalcContext);
+  const { calcResult, setCalcResult } = useContext(Context);
 
   //editDialogVisible is used to control the visibility of the edit dialog
   const [editDialogVisible, setEditDialogVisible] = useState(false);
