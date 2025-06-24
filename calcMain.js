@@ -5,15 +5,20 @@ import NumberButtons from "./Components/numberButtons";
 import { useAppStyles } from "./AllStyles/appStyles";
 import { CalcContext } from "./Operations/calcContext";
 
+// Main component for the calculator
+// This component handles the main logic of the calculator, including state management and UI rendering
 const CalcMain = () => {
   console.log("Calculator Main");
   const { calcResult, setCalcResult } = useContext(CalcContext);
   const [calculation, setCalculation] = useState("");
   console.log("Calculator after state:", calculation);
 
+  // Function to update the calculation based on button presses
+  // Handles numbers, operators, equals, clear, and delete actions
   const updateCalculation = (value) => {
     if (value === "=") {
       try {
+        // Evaluate the calculation string and update the state with the result
         let answer = new Function("return " + calculation)();
         setCalculation(calculation + "=" + answer);
         setCalcResult(calculation + "=" + answer);
@@ -23,20 +28,12 @@ const CalcMain = () => {
     } else if (value === "clear") {
       setCalculation("");
     } else if (value === "del") {
+      //.slice(0, -1) creates a new string with all characters except the last one (removes the last character).
       setCalculation(calculation.slice(0, -1));
     } else {
       setCalculation(calculation + String(value));
     }
   };
-
-  // Sync calculation to context
-  // This useEffect will update calcResult whenever calculation changes
-  // It ensures that the context is always in sync with the current calculation
-  // useEffect(() => {
-  //   //update the context with the current calculation
-  //   console.log("Updating calcResult in context:", calculation);
-  //   setCalcResult(calculation);
-  // }, [calculation, setCalcResult]);
 
   const styles = useAppStyles();
 

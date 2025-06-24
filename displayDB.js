@@ -8,7 +8,7 @@ import DbButtons from "./Components/DbButtons";
 import { Pressable, Alert } from "react-native";
 import Dialog from "react-native-dialog";
 
-//import { clearDatabase, addItem } from "./Operations/DbOperations"; // Import the functions from DbOperations}
+import { clearDatabase, addItem } from "./Operations/DbOperations"; // Import the functions from DbOperations}
 
 // Enable SQLite debugging
 
@@ -59,7 +59,7 @@ const DisplayDB = () => {
   // Add item whenever calcResult changes and is not empty
   useEffect(() => {
     if (calcResult) {
-      addItem(calcResult); // Call the addItem function from DbOperations
+      addItem(calcResult, db); // Call the addItem function from DbOperations
       fetchItems(); // Fetch items after creating the table
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -67,28 +67,28 @@ const DisplayDB = () => {
 
   // Add item to the database
   // This function is called after the table is created
-  const addItem = () => {
-    if (!calcResult) return;
-    db.transaction(
-      (tx) => {
-        tx.executeSql(
-          "INSERT INTO AllAnswers (answer) VALUES (?)",
-          [calcResult],
-          () => {
-            console.log("Item added to database:", calcResult);
-            // Clear the context after adding
-            //It also prevents duplicate entries if the user doesn’t change the calculation.
-          },
-          (tx, error) => {
-            console.log("Error inserting item:", error);
-          }
-        );
-      },
-      (error) => {
-        console.log("Transaction error:", error);
-      }
-    );
-  };
+  // const addItem = () => {
+  //   if (!calcResult) return;
+  //   db.transaction(
+  //     (tx) => {
+  //       tx.executeSql(
+  //         "INSERT INTO AllAnswers (answer) VALUES (?)",
+  //         [calcResult],
+  //         () => {
+  //           console.log("Item added to database:", calcResult);
+  //           // Clear the context after adding
+  //           //It also prevents duplicate entries if the user doesn’t change the calculation.
+  //         },
+  //         (tx, error) => {
+  //           console.log("Error inserting item:", error);
+  //         }
+  //       );
+  //     },
+  //     (error) => {
+  //       console.log("Transaction error:", error);
+  //     }
+  //   );
+  // };
   const fetchItems = () => {
     db.transaction((tx) => {
       tx.executeSql("SELECT answer FROM AllAnswers;", [], (tx, results) => {
@@ -102,27 +102,27 @@ const DisplayDB = () => {
   };
 
   // Function to clear all answers from the database
-  const clearDatabase = () => {
-    console.log("Clearing database...");
-    db.transaction(
-      (tx) => {
-        tx.executeSql(
-          "DELETE FROM AllAnswers;",
-          [],
-          () => {
-            console.log("All data cleared from database.");
-            fetchItems(); // Refresh the list after clearing
-          },
-          (tx, error) => {
-            console.log("Error clearing database:", error);
-          }
-        );
-      },
-      (error) => {
-        console.log("Transaction error:", error);
-      }
-    );
-  };
+  // const clearDatabase = () => {
+  //   console.log("Clearing database...");
+  //   db.transaction(
+  //     (tx) => {
+  //       tx.executeSql(
+  //         "DELETE FROM AllAnswers;",
+  //         [],
+  //         () => {
+  //           console.log("All data cleared from database.");
+  //           fetchItems(); // Refresh the list after clearing
+  //         },
+  //         (tx, error) => {
+  //           console.log("Error clearing database:", error);
+  //         }
+  //       );
+  //     },
+  //     (error) => {
+  //       console.log("Transaction error:", error);
+  //     }
+  //   );
+  // };
 
   const editItem = (oldValue) => {
     setEditOldValue(oldValue);
@@ -167,7 +167,7 @@ const DisplayDB = () => {
         <SafeAreaView>
           <Text style={appStyles.sectionTitle}>Database</Text>
           <Text>Latest Calculation: {calcResult}</Text>
-          <DbButtons clearDatabase={clearDatabase} />
+          <DbButtons clearDatabase={() => clearDatabase(fetchItems, db)} />
 
           <Dialog.Container visible={editDialogVisible}>
             <Dialog.Title>Edit Entry</Dialog.Title>
