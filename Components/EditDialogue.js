@@ -2,14 +2,6 @@ import Dialog from "react-native-dialog";
 import React from "react";
 
 const EditDialogue = ({ visible, value, onChange, onCancel, onSubmit }) => (
-  //   <Dialog.Container visible={visible}>
-  //     <Dialog.Title>Edit Entry</Dialog.Title>
-  //     <Dialog.Description>Enter new value:</Dialog.Description>
-  //     <Dialog.Input value={value} onChangeText={onChange} />
-  //     <Dialog.Button label="Cancel" onPress={onCancel} />
-  //     <Dialog.Button label="OK" onPress={onSubmit} />
-  //   </Dialog.Container>
-
   <Dialog.Container
     visible={visible}
     contentStyle={{
@@ -46,3 +38,12 @@ const EditDialogue = ({ visible, value, onChange, onCancel, onSubmit }) => (
 );
 
 export default EditDialogue;
+
+//old code
+//   <Dialog.Container visible={visible}>
+//     <Dialog.Title>Edit Entry</Dialog.Title>
+//     <Dialog.Description>Enter new value:</Dialog.Description>
+//     <Dialog.Input value={value} onChangeText={onChange} />
+//     <Dialog.Button label="Cancel" onPress={onCancel} />
+//     <Dialog.Button label="OK" onPress={onSubmit} />
+//   </Dialog.Container>

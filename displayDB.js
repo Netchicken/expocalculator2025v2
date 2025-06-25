@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import SQLite from "react-native-sqlite-storage";
 import { SafeAreaView, ScrollView, Text, View, ImageBackground } from "react-native";
-import { useDbOperationStyles } from "./AllStyles/dbOperationsStyles";
+// import { useDbOperationStyles } from "./AllStyles/dbOperationsStyles";
 import { useAppStyles } from "./AllStyles/appStyles";
 // Import the context for state management
 import { Context } from "./Operations/Context";
@@ -10,23 +10,13 @@ import DbButtons from "./Components/DbButtons";
 import { Pressable, Alert } from "react-native";
 import EditDialogue from "./Components/EditDialogue";
 
-import { clearDatabase, addItem, getFromDB } from "./Operations/DbOperations"; // Import the functions from DbOperations}
+import { loadDB, clearDatabase, addItem, getFromDB } from "./Operations/DbOperations"; // Import the functions from DbOperations}
 
-// Enable SQLite debugging
-
-const db = SQLite.openDatabase(
-  { name: "calcDB.db", location: "default" },
-  () => {
-    console.log("DB opened for real");
-  },
-  (error) => {
-    console.log("DB open error:", error);
-  }
-);
+const db = loadDB();
 
 const DisplayDB = () => {
   console.log("Database DisplayDB:");
-  const styles = useDbOperationStyles();
+  // const styles = useDbOperationStyles();
   const appStyles = useAppStyles();
   const [listAnswers, setListAnswers] = useState([]);
   // Use the context to get the calculation result and function to update it
@@ -123,6 +113,7 @@ const DisplayDB = () => {
         <SafeAreaView>
           <Text style={appStyles.sectionTitle}>Database</Text>
           <Text>Latest Calculation: {calcResult}</Text>
+          <Text>Click Calculation to edit</Text>
           <DbButtons clearDatabase={() => clearDatabaseAndList()} />
 
           <EditDialogue
@@ -138,7 +129,7 @@ const DisplayDB = () => {
               listAnswers.map((item, index) => (
                 <Pressable key={item.Id} onPress={() => editItem(item.Id, item.answer)}>
                   <View>
-                    <Text style={styles.text}>{item.answer}</Text>
+                    <Text style={appStyles.liText}>{item.answer}</Text>
                   </View>
                 </Pressable>
               ))}
@@ -150,3 +141,15 @@ const DisplayDB = () => {
 };
 
 export default DisplayDB;
+
+// function loadDB() {
+//   return SQLite.openDatabase(
+//     { name: "calcDB.db", location: "default" },
+//     () => {
+//       console.log("DB opened for real");
+//     },
+//     (error) => {
+//       console.log("DB open error:", error);
+//     }
+//   );
+// }
