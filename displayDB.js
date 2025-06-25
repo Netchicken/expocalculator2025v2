@@ -36,6 +36,8 @@ const DisplayDB = () => {
       type: "success",
       text1: "Success",
       text2: "The Database has been wiped clean. 👋",
+      text1Style: { fontSize: 16 }, // Increase title font size
+      text2Style: { fontSize: 16 }, // Increase message font size
     });
   };
 
