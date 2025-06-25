@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-import SQLite from "react-native-sqlite-storage";
 import { SafeAreaView, ScrollView, Text, View, ImageBackground } from "react-native";
 // import { useDbOperationStyles } from "./AllStyles/dbOperationsStyles";
 import { useAppStyles } from "./AllStyles/appStyles";
@@ -9,6 +8,7 @@ import { Context } from "./Operations/Context";
 import DbButtons from "./Components/DbButtons";
 import { Pressable, Alert } from "react-native";
 import EditDialogue from "./Components/EditDialogue";
+import Toast from "react-native-toast-message"; //https://github.com/calintamas/react-native-toast-message/blob/HEAD/docs/quick-start.md
 
 import { loadDB, clearDatabase, addItem, getFromDB } from "./Operations/DbOperations"; // Import the functions from DbOperations}
 
@@ -30,6 +30,14 @@ const DisplayDB = () => {
   const [editId, setEditId] = useState(null);
 
   console.log("Database calcResult:", calcResult);
+
+  const showToast = () => {
+    Toast.show({
+      type: "success",
+      text1: "Success",
+      text2: "The Database has been wiped clean. 👋",
+    });
+  };
 
   // Create the table if it doesn't exist
   // This useEffect runs once when the component mounts
@@ -77,7 +85,9 @@ const DisplayDB = () => {
     clearDatabase(db); // Clear the database
     // To fetch and set listAnswers:
     getFromDB(db, setListAnswers);
-    Alert.alert("Database cleared", "All entries have been removed from the database.");
+    showToast(); // Show a toast message
+    // Optionally, you can show an alert to confirm the action
+    // Alert.alert("Database cleared", "All entries have been removed from the database.");
   };
 
   const handleEditSubmit = () => {
@@ -141,15 +151,3 @@ const DisplayDB = () => {
 };
 
 export default DisplayDB;
-
-// function loadDB() {
-//   return SQLite.openDatabase(
-//     { name: "calcDB.db", location: "default" },
-//     () => {
-//       console.log("DB opened for real");
-//     },
-//     (error) => {
-//       console.log("DB open error:", error);
-//     }
-//   );
-// }
