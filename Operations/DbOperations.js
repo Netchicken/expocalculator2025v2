@@ -44,7 +44,7 @@ export const addItem = (calcResult, db) => {
 };
 
 // Function to clear all answers from the database
-export const clearDatabase = (fetchItems, db) => {
+export const clearDatabase = (db) => {
   console.log("Clearing database...");
   db.transaction(
     (tx) => {
@@ -53,7 +53,6 @@ export const clearDatabase = (fetchItems, db) => {
         [],
         () => {
           console.log("All data cleared from database.");
-          fetchItems(); // Refresh the list after clearing
         },
         (tx, error) => {
           console.log("Error clearing database:", error);
@@ -64,4 +63,31 @@ export const clearDatabase = (fetchItems, db) => {
       console.log("Transaction error:", error);
     }
   );
+};
+
+// getFromDB fetches all answers from the database and passes them to the provided callback.
+// Usage: getFromDB(db, setListAnswers);
+// This ensures the UI is updated with the latest data from the database.
+
+// This function retrieves all answers from the database and calls the callback with the results.
+// It is used to fetch data after adding or clearing items in the database.
+export const getFromDB = (db, callback) => {
+  db.transaction((tx) => {
+    tx.executeSql(
+      "SELECT Id, answer FROM AllAnswers;",
+      [],
+      (tx, results) => {
+        let rows = [];
+        for (let i = 0; i < results.rows.length; i++) {
+          rows.push(results.rows.item(i));
+        }
+        console.log("Fetched items from database:", rows);
+        if (callback) callback(rows);
+      },
+      (tx, error) => {
+        console.log("Error fetching items:", error);
+        if (callback) callback([]);
+      }
+    );
+  });
 };

@@ -7,7 +7,7 @@ const DbButtons = ({ clearDatabase }) => {
   return (
     <Row>
       <PressableButton onPress={clearDatabase} symbol="Delete All" />
-      <PressableButton onPress={clearDatabase} symbol="Edit" />
+      {/* <PressableButton onPress={clearDatabase} symbol="Edit" /> */}
     </Row>
   );
 };

@@ -2,7 +2,7 @@ import CalcMain from "./calcMain"; //import the main calculator component
 import DisplayDB from "./displayDB"; // import the database display component
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Context, ContextProvider } from "./Operations/Context";
+import { ContextProvider } from "./Operations/Context";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const Tab = createBottomTabNavigator();

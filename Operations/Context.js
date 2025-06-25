@@ -14,11 +14,11 @@ export const ContextProvider = ({ children }) => {
 
 // Custom hook to use the calculator context
 // This hook allows components to access the calculator state without needing to use the Context.Consumer directly
-export const useCalcContext = () => {
-  console.log("useCalcContext opened");
-  const context = useContext(Context);
-  if (!context) {
-    throw new Error("useCalcContext must be used within a CalcContextProvider");
-  }
-  return context;
-};
+// export const useCalcContext = () => {
+//   console.log("useCalcContext opened");
+//   const context = useContext(Context);
+//   if (!context) {
+//     throw new Error("useCalcContext must be used within a CalcContextProvider");
+//   }
+//   return context;
+// };
