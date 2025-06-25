@@ -8,7 +8,7 @@ import { Context } from "./Operations/Context";
 // Import the components for displaying buttons and handling database operations
 import DbButtons from "./Components/DbButtons";
 import { Pressable, Alert } from "react-native";
-import Dialog from "react-native-dialog";
+import EditDialogue from "./Components/EditDialogue";
 
 import { clearDatabase, addItem, getFromDB } from "./Operations/DbOperations"; // Import the functions from DbOperations}
 
@@ -72,6 +72,7 @@ const DisplayDB = () => {
   }, [calcResult]);
 
   const editItem = (Id, oldValue) => {
+    console.log("Editing item with Id:", Id, "and old value:", oldValue);
     setEditId(Id);
     setEditOldValue(oldValue);
     setEditNewValue(oldValue);
@@ -124,13 +125,13 @@ const DisplayDB = () => {
           <Text>Latest Calculation: {calcResult}</Text>
           <DbButtons clearDatabase={() => clearDatabaseAndList()} />
 
-          <Dialog.Container visible={editDialogVisible}>
-            <Dialog.Title>Edit Entry</Dialog.Title>
-            <Dialog.Description>Enter new value:</Dialog.Description>
-            <Dialog.Input value={editNewValue} onChangeText={setEditNewValue} />
-            <Dialog.Button label="Cancel" onPress={handleEditCancel} />
-            <Dialog.Button label="OK" onPress={handleEditSubmit} />
-          </Dialog.Container>
+          <EditDialogue
+            visible={editDialogVisible}
+            value={editNewValue}
+            onChange={setEditNewValue}
+            onCancel={handleEditCancel}
+            onSubmit={handleEditSubmit}
+          />
 
           <ScrollView>
             {listAnswers &&
