@@ -7,16 +7,12 @@ import {
   ScrollView,
   View,
 } from "react-native";
-import { useDbOperationStyles } from "./AllStyles/dbOperationsStyles"; // Import styles
-import { CalcContext } from "./calcContext";
+
+// THIS FILE IS OLD CODE FROM 2022 AND IS NOT USED IN THIS PROJECT BY KEPT AS EXAMPLES OF CRUD.
+//You can never have too many examples of CRUD operations.
 
 const databaseName = "calcDB.db";
 let singleAnswer = "";
-
-// Function to set the answer to be inserted
-export const PassData = ({ data }) => {
-  singleAnswer = data;
-};
 
 // Component to get and display database answers
 export const GetDb = () => {
@@ -41,8 +37,7 @@ export const GetDb = () => {
       return;
     }
     // SQL to create table if it doesn't exist
-    const createString =
-      "CREATE TABLE IF NOT EXISTS AllAnswers(Id INTEGER PRIMARY KEY AUTOINCREMENT, answer TEXT)";
+    const createString = "CREATE TABLE IF NOT EXISTS AllAnswers(Id INTEGER PRIMARY KEY AUTOINCREMENT, answer TEXT)";
 
     db.transaction((txn) => {
       // Create table
@@ -57,9 +52,7 @@ export const GetDb = () => {
       singleAnswer = calcResult;
       // Insert answer if available
       if (singleAnswer !== "") {
-        txn.executeSql("INSERT INTO AllAnswers (answer) VALUES (?)", [
-          singleAnswer,
-        ]);
+        txn.executeSql("INSERT INTO AllAnswers (answer) VALUES (?)", [singleAnswer]);
         singleAnswer = ""; // Reset after insert
         setCalcResult(""); //reset user to empty string
       }

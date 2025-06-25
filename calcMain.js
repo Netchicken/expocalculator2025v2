@@ -4,11 +4,17 @@ import CalcButtons from "./Components/calcbuttons";
 import NumberButtons from "./Components/numberButtons";
 import { useAppStyles } from "./AllStyles/appStyles";
 import { Context } from "./Operations/Context"; // Import the context for state management
+import { deleteDatabase } from "./Operations/DbOperations";
 
 // Main component for the calculator
 // This component handles the main logic of the calculator, including state management and UI rendering
 const CalcMain = () => {
   console.log("Calculator Main");
+
+  // useEffect(() => {
+  //   // Call the deleteDatabase function to clear the database when the app starts
+  //   deleteDatabase();
+  // }, []);
 
   // Use the context to get the calculation result and function to update it
   // This allows the calculator to share its state with other components if needed

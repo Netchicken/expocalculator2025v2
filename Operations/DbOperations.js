@@ -1,5 +1,37 @@
 import SQLite from "react-native-sqlite-storage";
 
+//use this to test if the database has been created correctly, otherwise you can't tell if createTable is working
+
+export const deleteDatabase = () => {
+  console.log("Deleting database...");
+  SQLite.deleteDatabase(
+    { name: "calcDB.db", location: "default" },
+    () => {
+      console.log("Database deleted successfully");
+    },
+    (error) => {
+      console.log("Error deleting database:", error);
+    }
+  );
+};
+
+// CreateTable creates the SQLite table if it does not already exist.
+// This function is called once when the app starts to ensure the table is ready for use.
+export const createTable = (db) => {
+  const createString = "CREATE TABLE IF NOT EXISTS AllAnswers(Id INTEGER PRIMARY KEY AUTOINCREMENT, answer TEXT)";
+
+  db.transaction(
+    (tx) => {
+      tx.executeSql(createString);
+    },
+    (error) => {
+      console.log("Error creating table:", error);
+    }
+  );
+  console.log("Table created or already exists");
+};
+
+//loadDB opens the SQLite database and returns the database object.
 export const loadDB = () => {
   return SQLite.openDatabase(
     { name: "calcDB.db", location: "default" },

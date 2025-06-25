@@ -9,15 +9,19 @@ import DbButtons from "./Components/DbButtons";
 import { Pressable, Alert } from "react-native";
 import EditDialogue from "./Components/EditDialogue";
 import Toast from "react-native-toast-message"; //https://github.com/calintamas/react-native-toast-message/blob/HEAD/docs/quick-start.md
+import { createTable, loadDB, clearDatabase, addItem, getFromDB } from "./Operations/DbOperations"; // Import the functions from DbOperations}
 
-import { loadDB, clearDatabase, addItem, getFromDB } from "./Operations/DbOperations"; // Import the functions from DbOperations}
-
+// Load the database
+// This function initializes the database connection and creates the necessary table if it doesn't exist
 const db = loadDB();
 
 const DisplayDB = () => {
   console.log("Database DisplayDB:");
-  // const styles = useDbOperationStyles();
+  // Initialize the styles for the component
+  // This allows the component to use the styles defined in appStyles.js
   const appStyles = useAppStyles();
+  // Initialize the state to hold the list of answers from the database
+  // This state will be updated whenever new items are added to the database
   const [listAnswers, setListAnswers] = useState([]);
   // Use the context to get the calculation result and function to update it
   // This allows the calculator to share its state with other components if needed
@@ -31,6 +35,8 @@ const DisplayDB = () => {
 
   console.log("Database calcResult:", calcResult);
 
+  // Function to show a toast message when the database is cleared
+  // This function uses the Toast component to display a success message
   const showToast = () => {
     Toast.show({
       type: "success",
@@ -44,33 +50,27 @@ const DisplayDB = () => {
   // Create the table if it doesn't exist
   // This useEffect runs once when the component mounts
   useEffect(() => {
+    createTable(db); // Call the function to create the table if not exists
+    // This ensures that the database is ready to use when the component loads
+    // Check if the database is opened
     if (!db) {
       console.log("Database not opened!");
       return;
     }
-    const createString = "CREATE TABLE IF NOT EXISTS AllAnswers(Id INTEGER PRIMARY KEY AUTOINCREMENT, answer TEXT)";
-
-    db.transaction(
-      (tx) => {
-        tx.executeSql(createString);
-      },
-      (error) => {
-        console.log("Error creating table:", error);
-      }
-    );
-    console.log("Table created or already exists");
   }, []);
 
   // Add item whenever calcResult changes and is not empty
   useEffect(() => {
     if (calcResult) {
       addItem(calcResult, db); // Call the addItem function from DbOperations
-      // To fetch and set listAnswers:
+      // After adding the item, fetch the updated list from the database
       getFromDB(db, setListAnswers);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [calcResult]);
 
+  // Fetch the list of answers from the database when the component mounts
+  //open the dialogue box when you click on an entry and pass in the id of the entry
+  // and the calculation to be modified
   const editItem = (Id, oldValue) => {
     console.log("Editing item with Id:", Id, "and old value:", oldValue);
     setEditId(Id);
@@ -79,19 +79,19 @@ const DisplayDB = () => {
     setEditDialogVisible(true);
   };
 
+  // Function to handle the cancel action in the edit dialog
   const handleEditCancel = () => {
     setEditDialogVisible(false);
   };
-
+  // Function to clear the database and update the list of answers
   const clearDatabaseAndList = () => {
     clearDatabase(db); // Clear the database
-    // To fetch and set listAnswers:
+    // clears both the database and the list of answers
     getFromDB(db, setListAnswers);
-    showToast(); // Show a toast message
-    // Optionally, you can show an alert to confirm the action
-    // Alert.alert("Database cleared", "All entries have been removed from the database.");
+    showToast(); // Show a success toast message
   };
-
+  // Function to handle the submission of the edit dialog
+  // This function updates the item in the database with the new value
   const handleEditSubmit = () => {
     if (editNewValue && editNewValue !== editOldValue && editId !== null) {
       db.transaction(
@@ -100,6 +100,7 @@ const DisplayDB = () => {
             "UPDATE AllAnswers SET answer = ? WHERE Id = ?",
             [editNewValue, editId],
             () => {
+              // If the update is successful, fetch the updated list from the database
               getFromDB(db, setListAnswers);
               setEditDialogVisible(false);
             },
