@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { SafeAreaView, ScrollView, Text, View, ImageBackground } from "react-native";
+import { SafeAreaView, ScrollView, Text, View, ImageBackground, Image } from "react-native";
 import CalcButtons from "./Components/calcbuttons";
 import NumberButtons from "./Components/numberButtons";
 import { useAppStyles } from "./AllStyles/appStyles";
@@ -53,11 +53,18 @@ const CalcMain = () => {
       <View style={styles.container}>
         <SafeAreaView>
           <ScrollView>
-            <View>
-              <Text style={styles.sectionTitle}>React Native Simple Calculator</Text>
+            <View style={{ flexDirection: "column" }}>
+              <Text style={styles.sectionTitle}>
+                React Native Simple Calculator
+                <Image source={require("./Assets/calcbig.png")} style={styles.icon} />
+              </Text>
+
+              {/* Calculator display */}
               <View style={styles.calcBox}>
                 <Text style={styles.outputText}>{calculation || "Enter a number"}</Text>
               </View>
+
+              {/* Buttons below */}
               <CalcButtons updateCalculation={updateCalculation} />
               <NumberButtons updateCalculation={updateCalculation} />
             </View>

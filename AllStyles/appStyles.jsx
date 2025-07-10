@@ -21,6 +21,14 @@ export const useAppStyles = () => {
           width: "100%",
           height: "100%",
         },
+        icon: {
+          width: 48,
+          height: 48,
+          marginLeft: 12, // add spacing between text and image
+          alignSelf: "center",
+          resizeMode: "contain", // Optional: keeps aspect ratio
+          marginVertical: 16, // Optional: spacing
+        },
         container: {
           flex: 1,
           marginTop: vs(32),
