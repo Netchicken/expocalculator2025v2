@@ -4,11 +4,11 @@
     "slug": "expocalculator2025v2",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./Assets/icon.png",
+    "icon": "./Assets/calc.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./Assets/icon.png",
+      "image": "./Assets/calcbig.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -17,7 +17,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./Assets/icon.png",
+        "foregroundImage": "./Assets/calcbig.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
