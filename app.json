@@ -4,8 +4,8 @@
     "slug": "expocalculator2025v2",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./Assets/calc.png",
-    "userInterfaceStyle": "light",
+    "icon": "./Assets/calcSmall.png",
+    "userInterfaceStyle": "dark",
     "newArchEnabled": true,
     "splash": {
       "image": "./Assets/calcbig.png",
