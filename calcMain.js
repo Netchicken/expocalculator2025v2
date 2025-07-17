@@ -4,7 +4,6 @@ import CalcButtons from "./Components/calcbuttons";
 import NumberButtons from "./Components/numberButtons";
 import { useAppStyles } from "./AllStyles/appStyles";
 import { Context } from "./Operations/Context"; // Import the context for state management
-import { deleteDatabase } from "./Operations/DbOperations";
 
 // Main component for the calculator
 // This component handles the main logic of the calculator, including state management and UI rendering
@@ -42,6 +41,7 @@ const CalcMain = () => {
       //.slice(0, -1) creates a new string with all characters except the last one (removes the last character).
       setCalculation(calculation.slice(0, -1));
     } else {
+      // Append the pressed button value to the current calculation
       setCalculation(calculation + String(value));
     }
   };
